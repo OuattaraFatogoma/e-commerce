@@ -1,8 +1,12 @@
 import React from 'react'
+import { Filters, Products } from '../components'
 
 function Shop() {
   return (
-    <div>Shop</div>
+    <main className='shop'>
+      <Filters/>
+      <Products/>
+    </main>
   )
 }
 

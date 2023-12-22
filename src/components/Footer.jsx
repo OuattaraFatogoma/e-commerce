@@ -2,7 +2,10 @@ import React from 'react'
 
 function Footer() {
   return (
-    <div>Footer</div>
+    <footer>
+      <p>© 2023 CARA All rights reserved</p>
+      <p>By <a href='https://www.linkedin.com/fatogoma'>Fatogoma</a></p>
+    </footer>
   )
 }
 
