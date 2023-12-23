@@ -1,32 +1,35 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FaBars, FaShoppingBag } from "react-icons/fa";
 import logo from "../images/logo.png";
-
-
+import { useGlobalContext } from '../utils/context';
 
 function Navbar() {
+  const location = useLocation();
+  const path = location.pathname;
+  const {toggleSidebar, cart} =useGlobalContext();
+
   return (
     <nav className='navbar'>
        <div className='nav-center'>
         <div className='nav-header'>
           <Link to="/"><img src={logo} alt='cara logo'/></Link>
-          <button className='toggle-sidebar'><FaBars /></button>
+          <button className='toggle-sidebar' onClick={toggleSidebar}><FaBars /></button>
         </div>
 
         <ul className='nav-links'>
-          <li className='active'>
+          <li className={path==="/" ?"active":""}>
             <Link to="/">Home</Link>
           </li>
-          <li>
+          <li className={path==="/about" ?"active":""}>
             <Link to="/about">About</Link>
           </li>
-          <li>
+          <li className={path==="/shop" || path.includes("/product/") ?"active":""}>
             <Link to="/shop">Shop</Link>
           </li>
-          <li className='cart-container'> 
+          <li className={path==="/cart" ?"active cart-container":"cart-container"}> 
             <Link to="/cart"><FaShoppingBag /></Link>
-            <span className='cart-value'>10</span>
+            <span className='cart-value'>{cart.amount}</span>
           </li>
         </ul>
        </div>

@@ -1,16 +1,54 @@
-import React from 'react'
-import test from '../images/about.jpg';
+import {useEffect, useState} from 'react';
+import test from '../images/about.jpg'
 import {FaStar, FaRegStar, FaMinus, FaPlus} from 'react-icons/fa'
+import { useParams, Link } from 'react-router-dom';
 
 function SingleProduct() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [product, setProduct] = useState([]);
+  const {id} = useParams();
+  const url = `https://fakestoreapi.com/products/${id}`
+  
+
+  async function getProduct(){
+    try {
+      setIsLoading(true);
+      const response = await fetch(url);
+      const data =  await response.json();
+      setProduct(data);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.error(error);
+    }
+  }
+
+  useEffect(()=>{
+    getProduct();
+  }, [])
+  
+  if(isLoading) return(<h1>Loading...</h1>);
+  const {title, image, price, rating, category, description} = product;
+  const rate = Math.round(rating.rate);
+  let starsFill = [];
+  let starsNotFill = [];
+  for(let i = 0; i <rate; i++){
+    starsFill.push(<FaStar />);
+  }
+  for(let i = 0; i <5-rate; i++){
+    starsNotFill.push(<FaRegStar />);
+  }
+  const stars= starsFill.concat(starsNotFill);
+
+
   return (
     <section className='single-product'>
-      <button className='btn'>BACK TO PRODUCTS</button>
+      <Link to="/shop"><button className='btn'>BACK TO PRODUCTS</button></Link>
       <div className='product-container'>
         <div className='product-images'>
-          <img src={test} alt="" className='main-image' />
+          <img src={image} alt="" className='main-image' />
           <div className='galerie'>
-            <img src={test}  alt="" />
+            <img src={image}  alt="" />
             <img src={test}  alt="" />
             <img src={test}  alt="" />
             <img src={test}  alt="" />
@@ -18,19 +56,16 @@ function SingleProduct() {
           </div>
         </div>
         <div className='product-content'>
-          <h2>Product Name</h2>
+          <h2>{title}</h2>
           <div className='rating'>            
             <span>
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              {/* <FaStar /> */}
-              <FaRegStar />
+              {
+                stars.map(star => star)
+              }
             </span>
-            <span>(55)</span>
+            <span>({rating.count} customer reviews)</span>
           </div>
-          <h3>$33</h3>
+          <h3>${price}</h3>
           <div className='actions'>
             <div>            
               <button><FaMinus/></button>
@@ -41,8 +76,8 @@ function SingleProduct() {
           </div>
           <hr />
           <div className='text'>
-            <p><span className='bold'>Category :</span> men's clothing</p>
-            <p><span className='bold'>Description :</span> Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.</p>
+            <p><span className='bold'>Category :</span> {category}</p>
+            <p><span className='bold'>Description :</span> {description}</p>
           </div>
         </div>
       </div>

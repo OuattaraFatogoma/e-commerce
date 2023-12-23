@@ -123,7 +123,7 @@ section{
     background-color: var(--primary-color);
     color: white;
     font-size: 12px;
-    padding: .3rem;
+    padding: .15rem .3rem;
     border-radius: 50%;
     position: absolute;
     top: -10px;
@@ -153,15 +153,16 @@ section{
 }
 .sidebar{
     width: 100%;
-    height: 100%;
+    height: 100vh;
     padding: 5px 3rem;
     background-color: var(--background-color);
     padding-top: 1rem;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     transform: translateX(-100%);
     transition: transform 300ms;
+    z-index: 1;
 }
 
 .sidebar-header{
@@ -274,15 +275,21 @@ section{
     background-color: var(--background-color);
     width: 100%;
 }
+.products .more{
+    display: block;
+    margin: 2rem auto;
+}
 .products-container{
     display: grid;
+    margin-top: 3rem;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1rem;
 }
 
 .product-card{
+    width: 300px;
     margin: auto;
-    border-radius: 10px;
+    border-radius: 20px;
     background-color: var(--background-color);
     border: 1px solid rgba(0, 0, 0, 0.2);
     transition: box-shadow 300ms;
@@ -300,14 +307,18 @@ section{
 .product-card img{
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
+    object-fit: contain;
+    background-color: white;
+    border-radius: 20px;
 }
 
 .product-card .footer{
     padding: 0 10%;
 }
 .product-card .footer h3{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     transition: color 100ms;
 }
 .product-card .footer h3:hover{
@@ -647,7 +658,7 @@ footer a:hover{
 .product-images .main-image{
     height: 80%;
     width: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 .product-images .galerie{
     padding-top: 1rem;
@@ -659,7 +670,7 @@ footer a:hover{
     border: 1px solid rgba(0, 0, 0, 0.2);
     width: 18%;
     height: 80px;
-    object-fit: cover;
+    object-fit: contain;
 }
 .product-container img{
     border-radius: 5px;

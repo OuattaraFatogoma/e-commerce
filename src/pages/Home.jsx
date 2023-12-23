@@ -5,7 +5,7 @@ function Home() {
     <main>
       <Hero/>
       <Feature/>
-      <Products/>
+      <Products simplified/>
       <Newsletter/>
     </main>
   )

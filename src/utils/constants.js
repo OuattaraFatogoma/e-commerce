@@ -1,0 +1,4 @@
+export const LOADING = "LOADING";
+export const DATA_FETCHED = "DATA_FETCHED";
+export const FETCHING_ERROR = "FETCHING_ERROR";
+export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
