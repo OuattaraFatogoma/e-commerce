@@ -125,7 +125,7 @@ section{
     font-size: 12px;
     padding: .15rem .3rem;
     border-radius: 50%;
-    position: absolute;
+    position: absolute; 
     top: -10px;
     left: 10px ;
 }
@@ -586,6 +586,7 @@ footer a:hover{
 .cart-resume .remove{
     width: 3%;
     color: darkred;
+    cursor: pointer;
 }
 
 .cart .action{

@@ -4,7 +4,12 @@ import {
     LOADING, 
     DATA_FETCHED, 
     FETCHING_ERROR, 
-    TOGGLE_SIDEBAR
+    TOGGLE_SIDEBAR,
+    ADD_TO_CART,
+    DELETE_FROM_CART,
+    CHANGE_AMOUNT,
+    CLEAR_CART,
+    UPDATE_CART
 } from "./constants"
 
 const AppContext = createContext();
@@ -13,7 +18,9 @@ const initialState = {
     cart: {
         items: [],
         amount: 0,
-        total: 0,
+        subTotal: 0,
+        shipFees: 5.3,
+        total: 0
     },
     products: [],
     isLoading: true,
@@ -26,6 +33,19 @@ const AppProvider = ({children}) =>{
     function toggleSidebar() {
         dispatch({type: TOGGLE_SIDEBAR})
     }
+    function addToCart(item){
+        dispatch({type: ADD_TO_CART, payload: item});
+    }
+    function changeAmount(id, effect){
+        dispatch({type: CHANGE_AMOUNT, payload:{id, effect}});
+    }
+    function deleteFromCart(id){
+        dispatch({type: DELETE_FROM_CART, payload: id});
+    }
+    function clearCart(){
+        dispatch({type: CLEAR_CART});
+    }
+
     async function fetchProducts(){
         try {
             dispatch({type: LOADING});
@@ -37,13 +57,18 @@ const AppProvider = ({children}) =>{
         }
     }
 
+    useEffect(()=>{
+        dispatch({type: UPDATE_CART});
+    }, [state.cart.items]);
 
     useEffect(()=>{
         fetchProducts();
-    }, [])
+    }, []);
+
+    
 
     return (
-        <AppContext.Provider value={ {...state, toggleSidebar} }>
+        <AppContext.Provider value={ {...state, toggleSidebar, addToCart, changeAmount, deleteFromCart, clearCart} }>
             {children}
         </AppContext.Provider>
     )

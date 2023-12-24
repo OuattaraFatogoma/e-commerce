@@ -1,15 +1,24 @@
 import {useEffect, useState} from 'react';
 import test from '../images/about.jpg'
 import {FaStar, FaRegStar, FaMinus, FaPlus} from 'react-icons/fa'
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useGlobalContext } from '../utils/context';
 
 function SingleProduct() {
+  const navigate = useNavigate();
+  const {addToCart, products} = useGlobalContext();
   const [isLoading, setIsLoading] = useState(true);
+  const [amount, setAmount] = useState(1);
   const [product, setProduct] = useState([]);
   const {id} = useParams();
   const url = `https://fakestoreapi.com/products/${id}`
   
 
+  function handleAdd(){
+    product.amount = amount;
+    addToCart(product);
+    navigate("/cart");
+  }
   async function getProduct(){
     try {
       setIsLoading(true);
@@ -25,6 +34,7 @@ function SingleProduct() {
 
   useEffect(()=>{
     getProduct();
+
   }, [])
   
   if(isLoading) return(<h1>Loading...</h1>);
@@ -68,11 +78,11 @@ function SingleProduct() {
           <h3>${price}</h3>
           <div className='actions'>
             <div>            
-              <button><FaMinus/></button>
-              <p>1</p>
-              <button><FaPlus/></button>
+              <button onClick={()=>setAmount(amount-1)}><FaMinus/></button>
+              <p>{amount<1 ? 1 : amount  }</p>
+              <button onClick={()=>setAmount(amount+1)}><FaPlus/></button>
             </div>
-            <button className='btn'>ADD TO CART</button>
+              <button className='btn' onClick={handleAdd}>ADD TO CART</button>
           </div>
           <hr />
           <div className='text'>
