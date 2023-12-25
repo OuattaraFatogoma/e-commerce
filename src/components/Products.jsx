@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ProductCard from './ProductCard';
 import { useGlobalContext } from '../utils/context';
 import { Link } from 'react-router-dom';
 
 function Products({simplified}) {
-  const {products} = useGlobalContext();
+  const {filterProducts , products} = useGlobalContext();
+
+  useEffect(()=>{
+    console.log('changed')
+  }, [filterProducts]);
   return (
     <section className='products'>
       {
@@ -19,12 +23,12 @@ function Products({simplified}) {
       <div className='products-container'>
         {
           simplified ? 
-            products.map((product,i) =>
+          products.map((product,i) =>
             {
               if(i<4) return <ProductCard key={i} {...product}/>
             })
             :
-            products.map((product,i) =>
+            filterProducts.map((product,i) =>
               <ProductCard key={i} {...product}/>
             )
         }

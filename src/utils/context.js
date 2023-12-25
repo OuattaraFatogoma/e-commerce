@@ -1,4 +1,4 @@
-import { useContext, createContext, useReducer, useEffect } from "react";
+import { useContext, createContext, useReducer, useEffect, useState, useRef } from "react";
 import { reducer } from "./reducer";
 import {
     LOADING, 
@@ -25,10 +25,11 @@ const initialState = {
     products: [],
     isLoading: true,
     isLogin: false,
-    isSidebarOpen: false,
+    isSidebarOpen: false, 
 }
 const AppProvider = ({children}) =>{
     const [state, dispatch] = useReducer(reducer, initialState);
+    const [filterProducts, setFilterProducts] = useState([]);
 
     function toggleSidebar() {
         dispatch({type: TOGGLE_SIDEBAR})
@@ -42,8 +43,34 @@ const AppProvider = ({children}) =>{
     function deleteFromCart(id){
         dispatch({type: DELETE_FROM_CART, payload: id});
     }
+
     function clearCart(){
         dispatch({type: CLEAR_CART});
+    }
+    function filter(searchTerm, category, price){
+        if(category === 'All'){
+            if((price <0 || price > 1000000)) setFilterProducts(state.products.filter(product => product.title.toLowerCase().includes(searchTerm.toLowerCase())));
+            else{
+                setFilterProducts(state.products.filter(product => {
+                    const show = product.title.toLowerCase().includes(searchTerm.toLowerCase()) && product.price <= price;
+                    return show;
+                }));
+            }
+        }else{
+            if((price <0 || price > 1000000)) {
+                setFilterProducts(state.products.filter(product => {
+                    const show = product.title.toLowerCase().includes(searchTerm.toLowerCase()) && product.category === category;
+                    return show;
+                }));
+            }
+            else{
+                setFilterProducts(state.products.filter(product => {
+                    const show = product.title.toLowerCase().includes(searchTerm.toLowerCase()) && product.price <= price && product.category === category;
+                    return show;
+                }));
+            }
+        }
+        
     }
 
     async function fetchProducts(){
@@ -51,6 +78,7 @@ const AppProvider = ({children}) =>{
             dispatch({type: LOADING});
             const response = await fetch(url);
             const products = await response.json();
+            setFilterProducts(products);
             dispatch({type: DATA_FETCHED, payload: products});
         } catch (error) {
             dispatch({type: FETCHING_ERROR, payload: error});
@@ -58,8 +86,13 @@ const AppProvider = ({children}) =>{
     }
 
     useEffect(()=>{
+        
         dispatch({type: UPDATE_CART});
     }, [state.cart.items]);
+
+    useEffect(()=>{
+        console.log(filterProducts);
+    }, [filterProducts]);
 
     useEffect(()=>{
         fetchProducts();
@@ -68,7 +101,7 @@ const AppProvider = ({children}) =>{
     
 
     return (
-        <AppContext.Provider value={ {...state, toggleSidebar, addToCart, changeAmount, deleteFromCart, clearCart} }>
+        <AppContext.Provider value={ {...state, filterProducts, toggleSidebar, addToCart, changeAmount, deleteFromCart, clearCart, filter} }>
             {children}
         </AppContext.Provider>
     )

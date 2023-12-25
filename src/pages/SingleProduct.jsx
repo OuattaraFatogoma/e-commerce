@@ -3,10 +3,11 @@ import test from '../images/about.jpg'
 import {FaStar, FaRegStar, FaMinus, FaPlus} from 'react-icons/fa'
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useGlobalContext } from '../utils/context';
+import ErrorPage from './ErrorPage';
 
 function SingleProduct() {
   const navigate = useNavigate();
-  const {addToCart, products} = useGlobalContext();
+  const {addToCart} = useGlobalContext();
   const [isLoading, setIsLoading] = useState(true);
   const [amount, setAmount] = useState(1);
   const [product, setProduct] = useState([]);
@@ -38,6 +39,9 @@ function SingleProduct() {
   }, [])
   
   if(isLoading) return(<h1>Loading...</h1>);
+  
+  if(product.length<=0) return(<ErrorPage/>);
+
   const {title, image, price, rating, category, description} = product;
   const rate = Math.round(rating.rate);
   let starsFill = [];
