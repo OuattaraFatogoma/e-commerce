@@ -1,9 +1,10 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useRef} from 'react';
 import test from '../images/about.jpg'
-import {FaStar, FaRegStar, FaMinus, FaPlus} from 'react-icons/fa'
+import {FaMinus, FaPlus} from 'react-icons/fa';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useGlobalContext } from '../utils/context';
 import ErrorPage from './ErrorPage';
+import { Rating } from '../components';
 
 function SingleProduct() {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ function SingleProduct() {
   const [isLoading, setIsLoading] = useState(true);
   const [amount, setAmount] = useState(1);
   const [product, setProduct] = useState([]);
+  const mainImage = useRef(null);
   const {id} = useParams();
   const url = `https://fakestoreapi.com/products/${id}`
   
@@ -20,6 +22,16 @@ function SingleProduct() {
     addToCart(product);
     navigate("/cart");
   }
+  function ChangeMainImage(e){
+    const image = e.target;
+    const url = image.src;
+    mainImage.current.src = url;
+    image.style.border = "2px solid black";
+    setTimeout(() =>{
+      image.style.border = "none";
+    }, 1000)
+  }
+
   async function getProduct(){
     try {
       setIsLoading(true);
@@ -43,42 +55,24 @@ function SingleProduct() {
   if(product.length<=0) return(<ErrorPage/>);
 
   const {title, image, price, rating, category, description} = product;
-  const rate = Math.round(rating.rate);
-  let starsFill = [];
-  let starsNotFill = [];
-  for(let i = 0; i <rate; i++){
-    starsFill.push(<FaStar />);
-  }
-  for(let i = 0; i <5-rate; i++){
-    starsNotFill.push(<FaRegStar />);
-  }
-  const stars= starsFill.concat(starsNotFill);
-
-
+  
   return (
     <section className='single-product'>
       <Link to="/shop"><button className='btn'>BACK TO PRODUCTS</button></Link>
       <div className='product-container'>
         <div className='product-images'>
-          <img src={image} alt="" className='main-image' />
+          <img src={image} alt="" className='main-image' ref={mainImage}/>
           <div className='galerie'>
-            <img src={image}  alt="" />
-            <img src={test}  alt="" />
-            <img src={test}  alt="" />
-            <img src={test}  alt="" />
-            <img src={test}  alt="" />
+            <img src={image}  alt="test" onClick={ChangeMainImage}/>
+            <img src={test}  alt="test" onClick={ChangeMainImage}/>
+            <img src={test}  alt="test" onClick={ChangeMainImage}/>
+            <img src={test}  alt="test" onClick={ChangeMainImage}/>
+            <img src={test}  alt="test" onClick={ChangeMainImage}/>
           </div>
         </div>
         <div className='product-content'>
           <h2>{title}</h2>
-          <div className='rating'>            
-            <span>
-              {
-                stars.map(star => star)
-              }
-            </span>
-            <span>({rating.count} customer reviews)</span>
-          </div>
+          <Rating rating={rating}/>
           <h3>${price}</h3>
           <div className='actions'>
             <div>            

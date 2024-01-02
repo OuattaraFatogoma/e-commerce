@@ -7,3 +7,4 @@ export {default as Newsletter} from'./Newsletter';
 export {default as ProductCard} from'./ProductCard';
 export {default as Products} from'./Products';
 export {default as Sidebar} from'./Sidebar';
+export {default as Rating} from'./Rating';

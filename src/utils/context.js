@@ -91,7 +91,6 @@ const AppProvider = ({children}) =>{
     }, [state.cart.items]);
 
     useEffect(()=>{
-        console.log(filterProducts);
     }, [filterProducts]);
 
     useEffect(()=>{

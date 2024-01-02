@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useGlobalContext } from '../utils/context';
-import {FaStar, FaRegStar} from 'react-icons/fa'
 
 function Filters() {
-  const {filter, products, isLoading} = useGlobalContext();
+  const {filter, products} = useGlobalContext();
 
   const categories = ["All",...new Set(products.map(product => product.category))];
   const maxPrice = Math.round(Math.max(...products.map(product => product.price)));
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("All");
-  const [price, setPrice] = useState(maxPrice);
+  const [price, setPrice] = useState(Math.round(Math.max(...products.map(product => product.price))));
 
   
 

@@ -50,7 +50,6 @@ export const reducer =(state, action)=>{
             return { ...state, cart: {...state.cart, items : []}}
         
         case UPDATE_CART:
-            console.log("Cart updated");
             let { amount, subTotal} = state.cart.items.reduce((cartUpdate, item) =>{
                 const itemAmount = item.amount;
                 const itemSubTotal = itemAmount * item.price;
