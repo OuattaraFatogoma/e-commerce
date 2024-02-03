@@ -14,7 +14,9 @@ function SingleProduct() {
   const [product, setProduct] = useState([]);
   const mainImage = useRef(null);
   const {id} = useParams();
-  const url = `https://fakestoreapi.com/products/${id}`
+  //const url = `https://fakestoreapi.com/products/${id}`;
+  const url = `http://localhost:5000/api/v1/products/${id}`;
+
   
 
   function handleAdd(){
@@ -24,8 +26,8 @@ function SingleProduct() {
   }
   function ChangeMainImage(e){
     const image = e.target;
-    const url = image.src;
-    mainImage.current.src = url;
+    const imageurl = image.src;
+    mainImage.current.src = imageurl;
     image.style.border = "2px solid black";
     setTimeout(() =>{
       image.style.border = "none";
@@ -53,8 +55,9 @@ function SingleProduct() {
   if(isLoading) return(<h1>Loading...</h1>);
   
   if(product.length<=0) return(<ErrorPage/>);
-
+  console.log(product);
   const {title, image, price, rating, category, description} = product;
+  console.log(rating);
   
   return (
     <section className='single-product'>

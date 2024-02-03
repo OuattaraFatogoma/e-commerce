@@ -13,7 +13,9 @@ import {
 } from "./constants"
 
 const AppContext = createContext();
-const url = 'https://fakestoreapi.com/products';
+//const url = 'https://fakestoreapi.com/products';
+const url = 'http://localhost:5000/api/v1/products/';
+
 const initialState = {
     cart: {
         items: [],
@@ -77,7 +79,13 @@ const AppProvider = ({children}) =>{
         try {
             dispatch({type: LOADING});
             const response = await fetch(url);
-            const products = await response.json();
+            let products = await response.json();
+            products.map(product =>{
+                if(product["_id"]) {
+                    product.id = product["_id"];
+                }
+                return product;
+            });
             setFilterProducts(products);
             dispatch({type: DATA_FETCHED, payload: products});
         } catch (error) {
