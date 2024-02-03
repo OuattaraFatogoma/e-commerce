@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const UsersSchema = mongoose.Schema({
+const PeoplesSchema = mongoose.Schema({
     name: {
         type: String,
         minLength: 3,
@@ -20,7 +20,15 @@ const UsersSchema = mongoose.Schema({
         type: String,
         minLength: 6,
         required: [true, "Please enter a password"],
+    },
+    acessLevel:{
+        type: String,
+        enum:{
+            values: ["user","admin", "manager"],
+            message: "Acess level must be admin or manager"
+        },
+        default: "user"
     }
 })
 
-module.exports = mongoose.model('Users', UsersSchema);
+module.exports = mongoose.model('Peoples', PeoplesSchema);
