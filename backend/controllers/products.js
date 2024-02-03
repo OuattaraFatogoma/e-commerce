@@ -15,7 +15,7 @@ const createProduct = async (req, res) =>{
 const getProduct = async (req, res) =>{
     const {id: productId} = req.params;
     const product = await Products.find({_id: productId});
-    res.status(StatusCodes.OK).json(product);
+    res.status(StatusCodes.OK).send(...product);
 }
 
 const updateProduct = async (req, res) =>{

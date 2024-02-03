@@ -2,7 +2,6 @@ require('dotenv').config();
 require('express-async-errors');
 const express = require('express');
 const mongoose = require('mongoose');
-
 //import routes
 const usersRoute = require('./routes/users');
 const productsRoute = require('./routes/products');
@@ -12,6 +11,8 @@ const invoicesRoute = require('./routes/invoices');
 // import middlwares 
 const notFoundMiddleware = require('./middleware/notFound');
 const errorHandlerMiddleware = require('./middleware/errorHandler');
+// import security packages
+const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 5000
@@ -19,7 +20,7 @@ const port = process.env.PORT || 5000
 
 // middlewares
 app.use(express.json());
-
+app.use(cors());
 
 //routes
 
