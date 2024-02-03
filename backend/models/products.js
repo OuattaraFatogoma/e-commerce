@@ -5,7 +5,7 @@ const ProductsSchema = mongoose.Schema({
         type: String,
         required: [true, "Please enter a title"],
     },
-    Price: {
+    price: {
         type: Number,
         required: [true, "Please enter a price"],
     },
@@ -13,7 +13,7 @@ const ProductsSchema = mongoose.Schema({
         type: String,
         required: [true, "Please enter a description"],
     },
-    categorie: {
+    category: {
         type: String,
         required: [true, "Please enter a categorie"],
     },
@@ -22,12 +22,16 @@ const ProductsSchema = mongoose.Schema({
         required: [true, "Please enter a image url"],
     },
     rating: {
-        rate: Number,
-        count: Number,
-        default: {
-            rate: 4,
-            count: 1,
-        }
+        rate: {
+            type: Number,
+            default: 4,
+            max: 5,
+            min: 1,
+        },
+        count: {
+            type: Number,
+            default: 1
+        },
     }
 }, {timestamps: true})
 
