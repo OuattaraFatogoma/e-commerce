@@ -9,7 +9,7 @@ const getAllProducts = async (req, res) =>{
 
 const createProduct = async (req, res) =>{
     const product = await Products.create(req.body);
-    res.status(StatusCodes.CREATED).send({message: "Product created successfully", product: product});
+    res.status(StatusCodes.CREATED).send({message: "Product created successfully", product});
 }
 
 const getProduct = async (req, res) =>{

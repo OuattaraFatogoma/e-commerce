@@ -1,3 +1,4 @@
+const bscrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 
 const PeoplesSchema = mongoose.Schema({
@@ -9,6 +10,7 @@ const PeoplesSchema = mongoose.Schema({
     },
     email: {
         type: String,
+        lowercase: true,
         match: [
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             'Please provide a valid email',
@@ -21,7 +23,7 @@ const PeoplesSchema = mongoose.Schema({
         minLength: 6,
         required: [true, "Please enter a password"],
     },
-    acessLevel:{
+    accessLevel:{
         type: String,
         enum:{
             values: ["user","admin", "manager"],
@@ -30,5 +32,14 @@ const PeoplesSchema = mongoose.Schema({
         default: "user"
     }
 })
+
+//hash the password before save and update
+PeoplesSchema.pre('save', async function(next){
+    const salt = await bscrypt.genSalt(10)
+    this.password = await bscrypt.hash(this.password, salt);
+    next();
+})
+
+
 
 module.exports = mongoose.model('Peoples', PeoplesSchema);
