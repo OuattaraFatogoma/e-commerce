@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const CartsSchema = mongoose.Schema({
     userId : {
         type: mongoose.Types.ObjectId,
-        ref:'Users',
+        ref:'Peoples',
     },
     products: [{
         product: {
@@ -13,7 +13,10 @@ const CartsSchema = mongoose.Schema({
         amount: Number,
     }],
     totalPrice: Number,
-    isPurshase: Boolean,
+    isPurshase: {
+        type: Boolean,
+        required: [true, "Please add thid field"]
+    },
 }, {timestamps: true})
 
 module.exports = mongoose.model('Carts', CartsSchema);
