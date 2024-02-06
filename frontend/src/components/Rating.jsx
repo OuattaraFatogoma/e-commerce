@@ -18,7 +18,7 @@ function Rating({rating}) {
             stars.map(star => star)
             }
         </span>
-        <span>({rating.count} customer reviews)</span>
+        <span> ({rating.count})</span>
     </div>
   )
 }

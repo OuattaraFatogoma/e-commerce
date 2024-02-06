@@ -313,7 +313,7 @@ section{
 }
 
 .product-card .footer{
-    padding: 0 10%;
+    padding: .5rem 10%;
 }
 .product-card .footer h3{
     white-space: nowrap;
@@ -325,8 +325,16 @@ section{
     color: orange;
 }
 
+.rating{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    column-gap: .3rem;
+}
+
 .rating span:first-child{
     color: goldenrod;
+    font-size: .9rem;
 }
 
 .product-card .footer .price{
